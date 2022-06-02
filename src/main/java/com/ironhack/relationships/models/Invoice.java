@@ -9,8 +9,8 @@ public class Invoice {
     private long id;
     private String invoiceTitle;
     private boolean isPaid;
-
-    
+    @OneToOne(mappedBy = "invoice")
+    private Students students;
     public Invoice(String invoiceTitle, boolean isPaid) {
         this.invoiceTitle = invoiceTitle;
         this.isPaid = isPaid;
