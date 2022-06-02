@@ -10,13 +10,26 @@ public class Invoice {
     private String invoiceTitle;
     private boolean isPaid;
     @OneToOne(mappedBy = "invoice")
-    private Students students;
+    private Student student;
+
+
+
+
     public Invoice(String invoiceTitle, boolean isPaid) {
         this.invoiceTitle = invoiceTitle;
         this.isPaid = isPaid;
     }
 
     public Invoice() {
+    }
+
+
+    public Student getStudents() {
+        return student;
+    }
+
+    public void setStudents(Student student) {
+        this.student = student;
     }
 
     public long getId() {

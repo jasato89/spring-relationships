@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "student")
-public class Students {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -13,14 +13,17 @@ public class Students {
     @OneToOne
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
+    @ManyToOne
+    @JoinColumn(name = "id_del_curso")
+    private Course course;
 
-    public Students(String firstName, String lastName, Invoice invoice) {
+    public Student(String firstName, String lastName, Invoice invoice) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.invoice = invoice;
     }
 
-    public Students() {
+    public Student() {
     }
 
     public long getId() {
