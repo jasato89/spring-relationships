@@ -1,6 +1,7 @@
 package com.ironhack.relationships.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "student")
@@ -14,8 +15,10 @@ public class Student {
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
     @ManyToOne
-    @JoinColumn(name = "id_del_curso")
+    @JoinColumn(name = "course_id")
     private Course course;
+    @ManyToMany(mappedBy = "students")
+    private Set<Book> books;
 
     public Student(String firstName, String lastName, Invoice invoice) {
         this.firstName = firstName;
@@ -24,6 +27,14 @@ public class Student {
     }
 
     public Student() {
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     public long getId() {
@@ -56,5 +67,13 @@ public class Student {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

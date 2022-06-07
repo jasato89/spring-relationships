@@ -1,5 +1,6 @@
 package com.ironhack.relationships.repository;
 
+import com.ironhack.relationships.models.Book;
 import com.ironhack.relationships.models.Course;
 import com.ironhack.relationships.models.Invoice;
 import com.ironhack.relationships.models.Student;
@@ -25,20 +26,33 @@ public class StudentRepositoryTest {
     @Autowired
     CourseRepository courseRepository;
 
+    @Autowired
+    BookRepository bookRepository;
+
     @BeforeEach
     void init() {
 
         Invoice invoicePedro = new Invoice("Pago curso 2022", false);
         Invoice invoiceMotoko = new Invoice("Pago Curso Motoko", false);
 
-        invoiceRepository.save(invoicePedro);
-        invoiceRepository.save(invoiceMotoko);
-
         Student student1 = new Student("Pedro", "Ortega-Messi", invoicePedro);
         Student student2 = new Student("Motoko", "Namba", invoiceMotoko);
 
-        studentsRepository.save(student1);
-        studentsRepository.save(student2);
+        Book book1 = new Book("Harry Potter", "JK Rowling");
+        Book book2 = new Book("Manolito Gafotas", "Elvira Lindo");
+
+        Set<Book> booksPedro = Set.of(book1, book2);
+        Set<Book> booksMotoko = Set.of(book1);
+
+        student1.setBooks(booksPedro);
+        student2.setBooks(booksMotoko);
+
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+
+        invoiceRepository.save(invoicePedro);
+        invoiceRepository.save(invoiceMotoko);
+
 
         Course course = new Course(
                 "Introduccion a Java", 60, "Jaume");
@@ -47,24 +61,31 @@ public class StudentRepositoryTest {
         students.add(student1);
         students.add(student2);
 
-        course.setStudents(students);
-
         courseRepository.save(course);
 
+        course.setStudents(students);
+
+        student1.setCourse(course);
+        student2.setCourse(course);
+
+        studentsRepository.save(student1);
+        studentsRepository.save(student2);
+
+
 
     }
 
 
 
-/*
+
     @AfterEach
     void tearDown() {
-        courseRepository.deleteAll();
         studentsRepository.deleteAll();
         invoiceRepository.deleteAll();
+        courseRepository.deleteAll();
     }
 
-*/
+
 
     @Test
     void checkStudent() {
